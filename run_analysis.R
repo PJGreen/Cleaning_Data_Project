@@ -1,3 +1,5 @@
+library(dplyr)
+
 #load activity labels and create vector for id lookup
 activity_df<-read.table("activity_labels.txt")
 names(activity_df)<-c("activity_id","activity")
@@ -63,10 +65,11 @@ names(tidy_df)[names(tidy_df) == "fBodyBodyGyroMag-mean()"] <- "freq_BodyBodyGyr
 names(tidy_df)[names(tidy_df) == "fBodyBodyGyroMag-std()"] <- "freq_BodyBodyGyroMag_std"
 names(tidy_df)[names(tidy_df) == "fBodyBodyGyroJerkMag-mean()"] <- "freq_BodyBodyGyroJerkMag_mean"
 names(tidy_df)[names(tidy_df) == "fBodyBodyGyroJerkMag-std()"] <- "freq_BodyBodyGyroJerkMag_std"
+names(tidy_df)[names(tidy_df) == "activity_names"] <- "activity_name"
 
 #create sum of sum dataset
-tidy_df_grouped<-grouped_df(tidy_df, c("subject_id","activity_names"))
-tidy_sum_df<-summarise_all(tidy_df_grouped, mean)
+tidy_df_grouped<-grouped_df(tidy_df, c("subject_id","activity_name"))
+tidy_mean_df<-summarise_all(tidy_df_grouped, mean)
 
 #cleanup
 rm(activity_df)
